@@ -5,7 +5,7 @@
 
 Name:           emu8051
 Version:        0~%{gitdate}git%{gitshort}
-Release:        1%{?dist}
+Release:        %autorelease
 Summary:        8051/8052 emulator with curses-based UI
 
 License:        MIT
@@ -57,5 +57,4 @@ install -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
-* Mon May 06 2024 Petr Menšík <pemensik@redhat.com>
-- 
+%autochangelog
