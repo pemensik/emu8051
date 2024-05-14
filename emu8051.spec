@@ -1,7 +1,7 @@
-%global forgeurl0 https://github.com/jarikomppa/emu8051
+%global forgeurl https://github.com/jarikomppa/emu8051
 %global gitcommit 5dc681275151c4a5d7b85ec9ff4ceb1b25abd5a8
-%global gitshort %(echo %{gitcommit} | cut -c 1-8)
 %global gitdate 20220911
+%global gitshort %(echo %{gitcommit} | cut -c 1-8)
 
 Name:           emu8051
 Version:        0~%{gitdate}git%{gitshort}
@@ -10,17 +10,17 @@ Summary:        8051/8052 emulator with curses-based UI
 
 License:        MIT
 URL:            https://solhsa.com/8051.html
-VCS:            git:%{forgeurl0}
-Source0:        https://github.com/jarikomppa/emu8051/archive/%{gitcommit}.tar.gz#/%{name}-%{gitcommit}.tar.gz
+VCS:            git:%{forgeurl}
+Source0:        %{forgeurl}/archive/%{gitcommit}/%{name}-%{gitcommit}.tar.gz
 
-BuildRequires:  gcc make
+BuildRequires:  gcc
+BuildRequires:  make
 BuildRequires:  ncurses-devel
-BuildRequires:  sed
 
 %description
 This is a simulator of the 8051/8052 microcontrollers. For sake of simplicity,
 I'm only referring to 8051, although the emulator can emulate either one. For
-more information about the 8-bit chip(s), please check out www.8052.com or
+more information about the 8-bit chip(s), please check out 8052mcu.com or
 look up the data sheets. Intel, being the originator of the architecture,
 naturally has information as well.
 
@@ -37,17 +37,15 @@ designing some hardware, but for most uses it is unneccessary and complicated.
 
 %prep
 %autosetup -n %{name}-%{gitcommit}
-# name resulting binary after the project
-sed -e "s,^BIN := emu,BIN := %{name}," -i Makefile
 
 
 %build
-%make_build
+%make_build BIN=%{name}
 
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-install -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
+install -m 0755 -p %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %license LICENSE
